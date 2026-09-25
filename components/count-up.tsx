@@ -45,7 +45,6 @@ export function CountUp({
     if (alreadyVisible) {
       animateFromZero()
     } else {
-      frame = requestAnimationFrame(() => setDisplay(0))
       observer = new IntersectionObserver(
         ([entry]) => {
           if (!entry?.isIntersecting) return

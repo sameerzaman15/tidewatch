@@ -178,6 +178,9 @@ html[data-announce="off"] .announce-bar {
   .price-pop {
     animation: rise-in 0.25s ease;
   }
+  [data-reveal="play"] {
+    animation: rise-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
 }
 
 @keyframes rise-in {

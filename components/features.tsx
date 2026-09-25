@@ -18,8 +18,8 @@ export function Features() {
           </p>
         </div>
         <Stagger className="mt-10 grid gap-4 md:grid-cols-6">
-          {features.map((feature) => (
-            <StaggerItem key={feature.title} className={feature.span}>
+          {features.map((feature, index) => (
+            <StaggerItem key={feature.title} className={feature.span} delay={index * 0.06}>
               <article className="lift-card h-full rounded-2xl border border-border bg-card p-6">
                 <h3 className="font-heading text-xl font-semibold">{feature.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">{feature.body}</p>

@@ -1,47 +1,56 @@
 "use client"
 
-import { LazyMotion, MotionConfig, domAnimation, m, useReducedMotion } from "motion/react"
+import { useEffect, useRef, type ReactNode } from "react"
 
-import { useIsClient } from "@/components/use-is-client"
+function usePlayOnView(delay: number) {
+  const ref = useRef<HTMLDivElement>(null)
 
-const viewport = { once: true, amount: 0.2 } as const
-const ease = [0.22, 1, 0.36, 1] as const
+  useEffect(() => {
+    const node = ref.current
+    if (!node) return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
+    const play = () => {
+      if (delay > 0) node.style.animationDelay = `${delay}s`
+      node.dataset.reveal = "play"
+    }
+
+    const rect = node.getBoundingClientRect()
+    const inView = rect.top < window.innerHeight * 0.9 && rect.bottom > 0
+    if (inView) {
+      play()
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return
+        observer.disconnect()
+        play()
+      },
+      { threshold: 0.15 },
+    )
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [delay])
+
+  return ref
+}
 
 export function Reveal({
   children,
   className,
   delay = 0,
 }: {
-  children: React.ReactNode
+  children: ReactNode
   className?: string
   delay?: number
 }) {
-  const reduce = useReducedMotion()
-  const ready = useIsClient()
-
-  if (!ready || reduce !== false) {
-    return (
-      <div className={className} data-reveal="">
-        {children}
-      </div>
-    )
-  }
-
+  const ref = usePlayOnView(delay)
   return (
-    <LazyMotion features={domAnimation} strict>
-      <MotionConfig reducedMotion="user">
-        <m.div
-          className={className}
-          data-reveal=""
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={viewport}
-          transition={{ duration: 0.5, delay, ease }}
-        >
-          {children}
-        </m.div>
-      </MotionConfig>
-    </LazyMotion>
+    <div ref={ref} className={className}>
+      {children}
+    </div>
   )
 }
 
@@ -49,64 +58,25 @@ export function Stagger({
   children,
   className,
 }: {
-  children: React.ReactNode
+  children: ReactNode
   className?: string
 }) {
-  const reduce = useReducedMotion()
-  const ready = useIsClient()
-
-  if (!ready || reduce !== false) {
-    return <div className={className}>{children}</div>
-  }
-
-  return (
-    <LazyMotion features={domAnimation} strict>
-      <MotionConfig reducedMotion="user">
-        <m.div
-          className={className}
-          initial="hidden"
-          whileInView="show"
-          viewport={viewport}
-          variants={{
-            hidden: {},
-            show: { transition: { staggerChildren: 0.06 } },
-          }}
-        >
-          {children}
-        </m.div>
-      </MotionConfig>
-    </LazyMotion>
-  )
+  return <div className={className}>{children}</div>
 }
 
 export function StaggerItem({
   children,
   className,
+  delay = 0,
 }: {
-  children: React.ReactNode
+  children: ReactNode
   className?: string
+  delay?: number
 }) {
-  const reduce = useReducedMotion()
-  const ready = useIsClient()
-
-  if (!ready || reduce !== false) {
-    return (
-      <div className={className} data-reveal="">
-        {children}
-      </div>
-    )
-  }
-
+  const ref = usePlayOnView(delay)
   return (
-    <m.div
-      className={className}
-      data-reveal=""
-      variants={{
-        hidden: { opacity: 0, y: 16 },
-        show: { opacity: 1, y: 0, transition: { duration: 0.5, ease } },
-      }}
-    >
+    <div ref={ref} className={className}>
       {children}
-    </m.div>
+    </div>
   )
 }

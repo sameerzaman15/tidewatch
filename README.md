@@ -18,12 +18,12 @@ Mobile preset on `/` against `pnpm build && pnpm start`. Details are in [docs/li
 
 | Category | Score |
 | --- | --- |
-| Performance | 95 |
+| Performance | 97 |
 | Accessibility | 100 |
 | Best Practices | 100 |
 | SEO | 100 |
 
-The hero headline is the LCP element. CLS is 0. First-load JS for `/` is 187.4 KB gzipped. The aim was under 150 KB. React DOM and the Next.js runtime are most of that weight.
+The hero headline is the LCP element. CLS is 0. First-load JS for `/` is 187.3 KB gzipped. The aim was under 150 KB. React DOM and the Next.js runtime are most of that weight.
 
 ## Features
 

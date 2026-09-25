@@ -19,7 +19,7 @@ export function HowItWorks() {
           {steps.map((step, index) => {
             const Icon = icons[index] ?? LinkIcon
             return (
-              <StaggerItem key={step.title}>
+              <StaggerItem key={step.title} className="h-full" delay={index * 0.06}>
                 <article className="h-full rounded-2xl border border-border bg-card p-6">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-sm text-primary">
