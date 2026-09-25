@@ -4,7 +4,7 @@ A launch page for Tidewatch, a fictional uptime monitor and public status page f
 
 **This is a portfolio concept project. Tidewatch is not a real company, and the testimonials and logos are fictional.**
 
-**Live demo:** [LIVE_DEMO_URL](LIVE_DEMO_URL)
+**Live demo:** [tidewatch-nine.vercel.app](https://tidewatch-nine.vercel.app)
 
 ![Tidewatch desktop, light mode](docs/screenshot-desktop.png)
 
